@@ -1,0 +1,371 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>용사의 마왕성 탈출 · 강윤호</title><style>
+:root{--gold:#f0c784;--ink:#0a1220;--cyan:#8fdcff}*{box-sizing:border-box}body{margin:0;overflow:hidden;background:#070d18;color:#eef4ff;font:15px "Malgun Gothic",system-ui,sans-serif}button{font:inherit;cursor:pointer;color:inherit;border:1px solid #8292a366;border-radius:9px;background:#142438;padding:13px 22px}button:hover{border-color:var(--gold);background:#253b50}button:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}button.primary{background:#e8bf7b;color:#1a1c25;font-weight:800;border-color:#ffe3ae}button:disabled{opacity:.35;cursor:default}.hidden{display:none!important}#game{position:absolute;inset:0}canvas{display:block;width:100%;height:100%}#vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 43%,#0206119c 100%)}#hud{position:absolute;inset:0;pointer-events:none;padding:26px 30px}#top{display:flex;justify-content:space-between;align-items:flex-start}.heroPanel{width:264px;padding:16px 18px;background:linear-gradient(120deg,#0d172ce8,#0d172c96);border:1px solid #b5c6d32a;border-radius:10px}.overline{font-size:11px;color:var(--gold);letter-spacing:3px}.hpRow{display:flex;justify-content:space-between;margin:8px 0;font-size:13px}.bar{height:9px;background:#243044;border-radius:7px;overflow:hidden}.bar>i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#bb4752,#f18e86);transition:width .16s}.statrow{display:flex;gap:18px;color:#bdc9da;font-size:12px;margin-top:12px}.objective{max-width:350px;text-align:right;text-shadow:0 2px 5px #000}.objective h2{font-size:20px;margin:7px 0 3px;font-weight:700}.objective p{margin:7px 0;color:#c1cadd;font-size:13px;line-height:1.65}.steps{display:flex;justify-content:flex-end;gap:7px;margin-top:12px}.steps span{height:3px;width:45px;background:#52617460}.steps .done{background:var(--gold)}#boss{position:absolute;top:26px;left:50%;transform:translateX(-50%);width:min(360px,30vw);text-align:center}#bossName{margin:0 0 7px;font-size:15px;color:#f8dcc2}#bossPhase{font-size:12px;color:#f7ae9b;margin-top:6px}.bossBar>i{background:linear-gradient(90deg,#7c427f,#d1839a)}#bottom{position:absolute;bottom:23px;left:50%;transform:translateX(-50%);width:min(830px,95vw);text-align:center}.abilityStrip{display:flex;justify-content:center;gap:10px}.ability{display:flex;align-items:center;gap:12px;text-align:left;background:#0d192ce8;border:1px solid #b5c6d33b;border-radius:9px;padding:10px 15px;min-width:165px}.ability img{width:35px;height:35px}.ability b{font-size:14px}.ability small{display:block;color:#96acc7;font-size:11px;margin-top:4px}.key{color:var(--gold);font-size:12px}#controls{margin-top:11px;color:#c0cada;font-size:12px;text-shadow:0 2px 3px #000}#toast{position:absolute;top:23%;left:50%;transform:translateX(-50%);padding:12px 23px;background:#11253bee;border:1px solid #c5a76a80;border-radius:7px;opacity:0;transition:opacity .2s;text-align:center;max-width:640px;line-height:1.7}#prompt{color:#fff3ca;margin-bottom:12px;font-size:15px;min-height:22px;text-shadow:0 2px 5px #000}#damageFlash{position:absolute;inset:0;background:#aa203650;pointer-events:none;opacity:0}#floatLayer{position:absolute;inset:0;pointer-events:none}.float{position:absolute;font-weight:800;text-shadow:0 2px 2px #111;white-space:nowrap}.panelScreen{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;background:linear-gradient(90deg,#060f21ed,#081120aa);padding:30px}.card{max-width:970px;width:100%;padding:36px 44px;border:1px solid #c5aa745c;border-radius:18px;background:linear-gradient(125deg,#101c31ed,#0c1625eb);box-shadow:0 24px 110px #0009}.title{font-family:Batang,serif;font-size:48px;letter-spacing:-2px;font-weight:700;line-height:1.25;margin:14px 0 17px}.lead{color:#c2ccdc;line-height:1.85;font-size:15px;margin:0 0 22px;max-width:690px}.choiceRow{display:flex;gap:16px;margin:18px 0 24px}.choice{flex:1;text-align:left;min-height:140px;padding:21px;border-radius:10px}.choice strong{display:block;font-size:21px;margin-bottom:9px}.choice small{display:block;font-size:13px;color:#bbc9d9;line-height:1.7}.choice.selected{border-color:var(--gold);background:#35403388;box-shadow:inset 0 0 0 1px #e8bf7b55}.choice img{float:right;width:64px;height:64px;margin-left:15px}.footerline{display:flex;justify-content:space-between;align-items:center;gap:25px}.subtle{color:#90a2be;font-size:12px;line-height:1.75}.instructions{display:grid;grid-template-columns:repeat(3,1fr);gap:9px 24px;border-top:1px solid #ffffff1c;padding-top:20px;color:#b3c3d8;font-size:12px;line-height:1.9;margin:17px 0 22px}.instructions b{color:#ecce94}.resultStats{display:flex;gap:35px;margin:24px 0 30px}.resultStats b{font-size:26px;display:block;color:var(--gold)}#loading{position:absolute;inset:0;background:#091122;display:grid;place-content:center;text-align:center;z-index:30}#loading p{color:#abc1de}#loading progress{width:310px;height:7px;accent-color:#e6bd78}#error{position:absolute;inset:0;background:#101521;display:grid;place-content:center;padding:40px;z-index:50;text-align:center}#error p{max-width:600px;line-height:1.8}#sound{position:absolute;bottom:24px;right:25px;padding:8px 11px;font-size:12px;z-index:5}#paused .card{max-width:470px;text-align:center}.pill{display:inline-block;color:#addfcc;border:1px solid #73ad9770;border-radius:20px;padding:5px 12px;font-size:12px;margin-bottom:12px}#qa-state{display:none}@media(max-width:900px){.title{font-size:36px}.card{padding:25px}.heroPanel{width:215px}#hud{padding:15px}.objective{max-width:260px}.objective h2{font-size:16px}#boss{top:110px;width:300px}.instructions{grid-template-columns:repeat(2,1fr)}.ability{min-width:140px;padding:8px}.abilityStrip{gap:6px}.ability small{font-size:10px}}@media(max-height:660px){.card{padding:20px 32px}.title{font-size:35px;margin:6px 0}.lead{margin-bottom:8px}.choiceRow{margin:12px 0}.choice{min-height:115px;padding:14px}.instructions{margin:12px 0;padding-top:12px}.ability{padding:7px 12px}#bottom{bottom:12px}}
+.statrow img{width:13px;height:13px;vertical-align:middle}.enemyLabel{position:absolute;width:70px;border-radius:3px;height:5px;color:#d7deed;text-shadow:0 1px 4px #000;font-size:10px;text-align:center;line-height:25px;pointer-events:none}</style></head><body><div id="game"></div><div id="vignette"></div><div id="floatLayer"></div><div id="damageFlash"></div>
+<div id="hud" class="hidden"><div id="top"><div class="heroPanel"><div class="overline">THE LAST GATE</div><div class="hpRow"><b>용사</b><span id="hpText">100 / 100</span></div><div class="bar"><i id="hpBar"></i></div><div class="statrow"><span>◈ <b id="coins">0</b></span><span><img id="atkIcon" alt=""> 공격 +<b id="atk">0</b></span><span><img id="defIcon" alt=""> 방어 +<b id="def">0</b></span></div></div><div class="objective"><div id="stageLabel" class="overline">성 외곽</div><h2 id="objective">성 안으로 들어가세요</h2><p id="objectiveHint"></p><div class="steps"><span></span><span></span><span></span><span></span></div></div></div><div id="boss" class="hidden"><div id="bossName"></div><div class="bar bossBar"><i id="bossHp"></i></div><div><img id="hitIcon" alt="" style="width:13px;height:13px;vertical-align:middle"><span id="bossPhase"></span></div></div><div id="toast"></div><div id="bottom"><div id="prompt"></div><div class="abilityStrip"><div class="ability"><img id="weaponIcon"><div><b id="weaponName">기사검</b><small><span class="key">J / 좌클릭</span> 공격 · <span class="key">Q</span> 무기</small></div></div><div class="ability"><img id="skillIcon"><div><b id="skillName">집중 찌르기</b><small id="skillCd">K / 우클릭 · 준비</small></div></div><div class="ability"><div><b id="dashLabel">회피 준비</b><small><span class="key">Shift</span> 이동 방향으로 회피</small></div></div></div><div id="controls">WASD / 방향키 이동 · Space 점프 · E 상자 / 능력 · Esc 일시정지</div></div></div>
+<section id="intro" class="panelScreen hidden"><div class="card"><div class="overline">강윤호 · 용사의 마왕성 탈출</div><h1 class="title">검을 고르고,<br>마지막 문까지 살아남으세요.</h1><p class="lead">적이 공격하기 전의 움직임을 읽고, 빈틈에 반격하세요.<br>성에서 얻은 장비와 보스의 능력이 다음 전투를 바꿉니다. 마왕을 쓰러뜨린 뒤에도 <strong>직접 성문을 통과</strong>해야 탈출할 수 있습니다.</p><div class="choiceRow"><button class="choice selected" id="chooseQuick" data-weapon="quick"><img id="quickIcon"><strong>기사검</strong><small>짧은 거리 · 빠른 연속 공격<br>가까이 붙어 반격하기 좋습니다.</small></button><button class="choice" id="chooseHeavy" data-weapon="heavy"><img id="heavyIcon"><strong>대검</strong><small>긴 거리 · 묵직한 휘두르기<br>떨어져서 여러 적을 가를 수 있습니다.</small></button></div><div class="instructions"><span><b>WASD / 방향키</b> 이동</span><span><b>J / 좌클릭</b> 무기 공격</span><span><b>K / 우클릭</b> 장착 능력</span><span><b>Shift</b> 회피 · <b>Space</b> 점프</span><span><b>Q</b> 획득한 무기 교체</span><span><b>E</b> 상자 열기 / 능력 선택</span></div><div class="footerline"><p class="subtle">짧은 원정 · 목표 플레이 2~5분<br>붉은 표시는 공격 예고, 금빛은 보스의 빈틈입니다. 피한 뒤 반격하세요.</p><button id="start" class="primary">성으로 들어가기 →</button></div></div></section>
+<section id="reward" class="panelScreen hidden"><div class="card"><div class="pill">중간 보스 처치 · 새로운 능력 획득</div><div class="overline">NEW ABILITY</div><h1 class="title">다음 전투는, 다른 방식으로.</h1><p class="lead">넓은 휩쓸기를 새로 얻었습니다. 두 능력은 모두 보유하며, 지금 사용할 능력을 고르세요.<br>전투 중 <b>E</b>로 다시 선택할 수 있습니다.</p><div class="choiceRow"><button class="choice" id="equipFocus"><img id="rewardFocus"><strong>집중 찌르기</strong><small>멀리 있는 한 적을 향한 빠른 일격<br>위험한 마법사에게 접근하기 전 사용하세요.</small></button><button class="choice selected" id="equipWide"><img id="rewardWide"><strong>넓은 휩쓸기 <span class="key">NEW</span></strong><small>주변의 여러 적을 한 번에 밀어내는 공격<br>둘러싸였을 때 새로운 빈틈을 만듭니다.</small></button></div><p class="subtle">능력 선택 중에는 전투가 멈춥니다. 체력이 25 회복됩니다. 획득한 능력은 이번 원정 동안 유지됩니다.</p></div></section>
+<section id="result" class="panelScreen hidden"><div class="card"><div id="resultTag" class="overline"></div><h1 id="resultTitle" class="title"></h1><p id="resultBody" class="lead"></p><div class="resultStats"><div><b id="resultTime">0:00</b><small>원정 시간</small></div><div><b id="resultKills">0</b><small>처치</small></div><div><b id="resultCoins">0</b><small>모은 코인</small></div></div><button id="retry" class="primary">성 입구에서 다시 도전 · R</button><p class="subtle">다시 도전하면 체력·장비·보상·적·함정이 처음 상태로 돌아갑니다.</p></div></section>
+<section id="paused" class="panelScreen hidden"><div class="card"><div class="overline">PAUSED</div><h1 class="title">잠시 숨 고르기</h1><p class="lead">Esc 또는 아래 버튼으로 원정을 계속합니다.</p><button id="resume" class="primary">계속하기</button></div></section><button id="sound">소리 켜짐</button>
+<div id="loading"><div class="overline">THE LAST GATE</div><h2>마왕성을 준비하고 있습니다</h2><progress id="loadProgress" max="100" value="0"></progress><p id="loadText">갑옷과 성벽을 불러오는 중…</p></div><div id="error" class="hidden"><h2>게임을 열지 못했습니다</h2><p id="errorText"></p><button onclick="location.reload()">다시 열기</button></div><pre id="qa-state"></pre>
+<!--OFFLINE_RUNTIME-->
+<!--EMBEDDED_ASSETS-->
+<script>
+/* 강윤호 · 용사의 마왕성 탈출 · task24
+ * Prototype rules, not confirmed full-game rules. Pure X/Z combat model.
+ * Coordinate units are metres; authored humanoid height is about 1.85 m.
+ * update owns invuln / attackCd / skillCd only; movement, dashTime and airY
+ * belong to the host. Hooks carry data only; this file has no DOM/Three calls.
+ */
+(function (global) {
+  'use strict';
+  const TAU = Math.PI * 2;
+  const SPECS = Object.freeze({
+    guard:  { hp: 70, speed: 1.8, radius: .46, reach: 2.0, windup: .85, recover: 1.02, damage: 14 },
+    caster: { hp: 55, speed: 1.4, radius: .43, reach: 6.2, windup: 1.1, recover: 1.25, damage: 13 },
+    warden: { hp: 190, speed: 1.24, radius: .7, reach: 2.95, windup: 1.15, recover: 1.55, damage: 23 },
+    demon:  { hp: 300, speed: 1.45, radius: .8, reach: 3.25, windup: 1.08, recover: 1.4, damage: 24 }
+  });
+  const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
+  const norm = (x, z) => { const d = Math.hypot(x, z); return d > .00001 ? { x:x/d, z:z/d } : { x:0, z:-1 }; };
+  const decay = (v, dt) => Math.max(0, (Number(v) || 0) - dt);
+
+  class CastleCombat {
+    constructor(hooks = {}) {
+      this.hooks = hooks;
+      this.pending = [];
+      this.playerRef = null;
+      this.nextId = 1;
+      this.time = 0;
+    }
+
+    emit(type, data) {
+      if (typeof this.hooks.event === 'function') this.hooks.event(type, data);
+    }
+
+    addEnemy(state, kind, x, z, id) {
+      const spec = SPECS[kind];
+      if (!spec) throw new Error('Unknown enemy kind: ' + kind);
+      const e = {
+        id: id == null ? kind + '_' + this.nextId++ : id,
+        kind, x, z, homeX:x, homeZ:z, hp:spec.hp, maxHp:spec.hp,
+        phase:'idle', timer:.35, facingX:0, facingZ:1,
+        attackTargetX:x, attackTargetZ:z, dead:false, active:true,
+        radius:spec.radius, attackCount:0, warning:null, hurtTimer:0,
+        cycle:0, damageDone:false
+      };
+      (state.enemies || (state.enemies = [])).push(e);
+      return e;
+    }
+
+    attack(state, isSkill = false) {
+      const p = state.player;
+      if (state.phase !== 'playing' || !p || p.hp <= 0 || p.dashTime > 0) return false;
+      if (this.playerRef !== p) { this.playerRef = p; this.pending.length = 0; }
+      if ((p.attackCd || 0) > 0 || (isSkill && (p.skillCd || 0) > 0)) return false;
+      if (isSkill && p.skill === 'wide' && !p.wideUnlocked) return false;
+      const wide = isSkill && p.skill === 'wide';
+      const heavy = p.weapon === 'heavy';
+      const facing = norm(p.facingX, p.facingZ);
+      const spec = isSkill ? (wide ? {
+        delay:.32, cooldown:.76, skillCooldown:6, range:3.2,
+        damage:28, halfAngle:Math.PI, maxTargets:99, type:'wide'
+      } : {
+        delay:.24, cooldown:.62, skillCooldown:5.5, range:3.6,
+        damage:32, halfAngle:.34, maxTargets:1, type:'focus'
+      }) : heavy ? {
+        delay:.42, cooldown:1.05, range:2.9, damage:27,
+        halfAngle:1.1, maxTargets:2, type:'heavy'
+      } : {
+        delay:.18, cooldown:.62, range:1.7, damage:14,
+        halfAngle:.7, maxTargets:1, type:'quick'
+      };
+      p.attackCd = spec.cooldown;
+      if (isSkill) p.skillCd = spec.skillCooldown;
+      // Host may use this for animation and a small committed-swing slowdown.
+      p.attackLock = spec.delay + .09;
+      p.attackType = spec.type;
+      this.pending.push({ player:p, remaining:spec.delay, fx:facing.x, fz:facing.z, spec });
+      this.emit('playerAttack', {
+        skill:isSkill ? (wide ? 'wide' : 'focus') : false,
+        isSkill, weapon:p.weapon, type:spec.type, windup:spec.delay,
+        duration:spec.cooldown, range:spec.range, x:p.x, z:p.z,
+        facingX:facing.x, facingZ:facing.z
+      });
+      return true;
+    }
+
+    resolvePlayerAttack(state, attack) {
+      const p = state.player;
+      if (p !== attack.player || p.hp <= 0) return;
+      // Dodge intentionally cancels an unfinished swing; no hidden hit during dash.
+      if (p.dashTime > 0) { this.emit('attackCancelled', { type:attack.spec.type }); return; }
+      const s = attack.spec;
+      const targets = state.enemies.filter(e => {
+        if (e.dead || e.active === false) return false;
+        const dx = e.x-p.x, dz = e.z-p.z, d = Math.hypot(dx,dz);
+        if (d > s.range + e.radius*.45) return false;
+        if (s.type === 'wide' || d < .15) return true;
+        const edge = Math.asin(Math.min(.95, e.radius*.35/Math.max(.1,d)));
+        return (dx*attack.fx+dz*attack.fz)/d >= Math.cos(s.halfAngle+edge);
+      }).sort((a,b) => dist(a,p)-dist(b,p)).slice(0,s.maxTargets);
+      this.emit('fx', { type:s.type, x:p.x, z:p.z, dx:attack.fx, dz:attack.fz, range:s.range, hit:targets.length>0 });
+      for (const e of targets) {
+        // Recovery is a visible counterattack opportunity, not just an idle label.
+        const counter = e.phase === 'recover';
+        const boss = e.kind === 'warden' || e.kind === 'demon';
+        const bossGuard = boss && !counter;
+        const amount = Math.round((s.damage+(Number(p.attackBonus)||0)) * (counter ? (boss ? 1.5 : 1.2) : bossGuard ? .25 : 1));
+        e.hp = Math.max(0,e.hp-amount);
+        e.hurtTimer = .15;
+        p.hitCount = (p.hitCount || 0) + 1;
+        this.emit('number', { x:e.x, z:e.z, text:bossGuard?'방어 '+amount:String(amount)+(counter?'!':''), color:bossGuard?'#8fcfff':counter?'#ffe680':'#fff5d6', counter, bossGuard });
+        this.emit('enemyHit', e);
+        if (e.hp <= 0) {
+          e.dead = true; e.phase = 'dead'; e.timer = 0; e.warning = null;
+          this.emit('enemyDead',e);
+        } else if (s.type === 'wide' && (e.kind === 'guard' || e.kind === 'caster')) {
+          // The new crowd-control skill creates space; bosses resist displacement.
+          const away = norm(e.x-p.x,e.z-p.z);
+          e.x += away.x*.5; e.z += away.z*.5;
+          e.phase = 'recover'; e.timer = .4; e.warning = null;
+          this.emit('enemyInterrupted',e);
+        } else if ((s.type === 'heavy' || s.type === 'focus') && (e.kind === 'guard' || e.kind === 'caster')) {
+          // Heavy/focused hits interrupt ordinary foes; bosses retain their tell.
+          e.phase = 'recover'; e.timer = Math.max(.52,e.timer*.3); e.warning = null;
+          this.emit('enemyInterrupted',e);
+        }
+      }
+      this.emit('strikeResolved', { type:s.type, hits:targets.length });
+    }
+
+    damagePlayer(state, amount, source) {
+      const p = state.player;
+      if (state.phase !== 'playing' || !p || p.hp <= 0 || p.invuln > 0 || p.dashTime > 0) return false;
+      const actual = Math.max(1,Math.round(amount-(Number(p.defenseBonus)||0)));
+      p.hp = Math.max(0,p.hp-actual);
+      p.invuln = .65;
+      this.emit('number',{x:p.x,z:p.z,text:'−'+actual,color:'#ff767f'});
+      this.emit('playerHit',{amount:actual,source,hp:p.hp});
+      return true;
+    }
+
+    beginTelegraph(e, state) {
+      const p = state.player, s = SPECS[e.kind];
+      const f = norm(p.x-e.x,p.z-e.z);
+      e.facingX=f.x; e.facingZ=f.z;
+      e.attackTargetX=p.x; e.attackTargetZ=p.z;
+      e.phase='telegraph'; e.timer=s.windup; e.damageDone=false;
+      let shape='cone', radius=s.reach, width=1.3, length=s.reach;
+      if(e.kind==='caster') { shape='line'; width=.5; radius=.5; length=7.8; }
+      if(e.kind==='warden') shape='circle';
+      // Demon alternates close sweep with eight slow, evenly spaced magic bolts.
+      if(e.kind==='demon' && e.attackCount%2===1) { shape='ring'; radius=4.0; e.timer=1.25; }
+      e.attackMode=shape;
+      e.warning={shape,x:e.x,z:e.z,radius,width,length,dx:f.x,dz:f.z,duration:e.timer,remaining:e.timer};
+      this.emit('telegraph',e);
+    }
+
+    fire(state,e,angle,speed,damage,radius=.25) {
+      const dx=Math.sin(angle), dz=Math.cos(angle);
+      const p={
+        id:'bolt_'+this.nextId++,x:e.x+dx*.65,z:e.z+dz*.65,
+        vx:dx*speed,vz:dz*speed,radius,life:3.5,source:e.kind,
+        enemyId:e.id,damage,dead:false,y:1.0
+      };
+      (state.projectiles || (state.projectiles=[])).push(p);
+      this.emit('projectile',p);
+    }
+
+    enemyStrike(state,e) {
+      const s=SPECS[e.kind],p=state.player;
+      this.emit('enemyAttack',e);
+      if(e.kind==='caster') {
+        this.fire(state,e,Math.atan2(e.facingX,e.facingZ),4.9,s.damage,.26);
+      } else if(e.kind==='demon' && e.attackMode==='ring') {
+        const offset=Math.atan2(e.facingX,e.facingZ);
+        for(let i=0;i<8;i++) this.fire(state,e,offset+i*TAU/8,3.6,18,.29);
+        this.emit('fx',{type:'demonRing',x:e.x,z:e.z,range:4});
+      } else {
+        const dx=p.x-e.x,dz=p.z-e.z,d=Math.hypot(dx,dz);
+        const inside=d<=s.reach+.32;
+        const inCone=e.attackMode==='circle' || d<.1 || (dx*e.facingX+dz*e.facingZ)/d >= Math.cos(e.kind==='demon'?1.26:.92);
+        // Warden's ground shock may be jumped. Swords and demon sweeps reach up.
+        const jumped=e.kind==='warden' && (p.airY||0)>.55;
+        if(inside && inCone && !jumped) this.damagePlayer(state,s.damage,e.kind);
+        this.emit('fx',{type:e.kind==='warden'?'slam':'enemySweep',x:e.x,z:e.z,dx:e.facingX,dz:e.facingZ,range:s.reach});
+      }
+      e.attackCount++;
+      e.warning=null;
+    }
+
+    updateEnemy(dt,state,e) {
+      if(e.dead || e.active===false) return;
+      const p=state.player,s=SPECS[e.kind];
+      e.hurtTimer=decay(e.hurtTimer,dt);
+      if(e.phase==='telegraph') {
+        e.timer-=dt;
+        if(e.warning)e.warning.remaining=Math.max(0,e.timer);
+        if(e.timer<=0) {e.phase='attack';e.timer=.19;this.enemyStrike(state,e);}
+        return;
+      }
+      if(e.phase==='attack') {
+        e.timer-=dt;
+        if(e.timer<=0) {e.phase='recover';e.timer=s.recover;this.emit('enemyRecover',e);}
+        return;
+      }
+      if(e.phase==='recover') {
+        e.timer-=dt;
+        if(e.timer<=0) {e.phase='chase';e.timer=.12;}
+        return;
+      }
+      e.timer=decay(e.timer,dt);
+      const dx=p.x-e.x,dz=p.z-e.z,d=Math.hypot(dx,dz);
+      if(d>8.5) {e.phase='idle';return;}
+      const f=norm(dx,dz);
+      e.facingX=f.x;e.facingZ=f.z;e.phase='chase';
+      let stop=s.reach*.8;
+      if(e.kind==='caster')stop=5.0;
+      // Stand just inside range, then lock aim for the full readable windup.
+      if(d<=stop && e.timer<=0) {this.beginTelegraph(e,state);return;}
+      if(d>stop) {
+        const move=Math.min(s.speed*dt,Math.max(0,d-stop));
+        e.x+=f.x*move;e.z+=f.z*move;
+      }
+      // Prevent ordinary enemies from occupying exactly the same point.
+      for(const other of state.enemies) {
+        if(other===e || other.dead || other.active===false)continue;
+        const ox=e.x-other.x,oz=e.z-other.z,od=Math.hypot(ox,oz),min=e.radius+other.radius+.12;
+        if(od>0.01 && od<min) {
+          const push=Math.min((min-od)*.45,dt*.8);
+          e.x+=ox/od*push;e.z+=oz/od*push;
+        }
+      }
+    }
+
+    updateProjectiles(dt,state) {
+      const p=state.player;
+      for(const b of state.projectiles) {
+        if(b.dead)continue;
+        b.life-=dt;
+        const oldX=b.x,oldZ=b.z;
+        b.x+=b.vx*dt;b.z+=b.vz*dt;
+        // Segment-circle test avoids tunnelling during a slow render frame.
+        const sx=b.x-oldX,sz=b.z-oldZ,len=sx*sx+sz*sz;
+        const t=len>0?Math.max(0,Math.min(1,((p.x-oldX)*sx+(p.z-oldZ)*sz)/len)):0;
+        const near=Math.hypot(p.x-(oldX+sx*t),p.z-(oldZ+sz*t));
+        // Physical arrows pass below a high jump; magic still reaches the hero.
+        const jumpedArrow=b.source==='arrow' && (p.airY||0)>.6;
+        if(near<(b.radius||.25)+.32 && !jumpedArrow) {
+          this.damagePlayer(state,b.damage||13,b.source||'magic');
+          b.dead=true;b.life=0;
+          this.emit('projectileGone',b);
+        } else if(b.life<=0) {b.dead=true;this.emit('projectileGone',b);}
+      }
+      // Keep array identity for host rendering; dead items can be removed safely.
+      for(let i=state.projectiles.length-1;i>=0;i--)if(state.projectiles[i].dead)state.projectiles.splice(i,1);
+    }
+
+    update(dt,state) {
+      if(!state || !state.player)return;
+      const p=state.player;
+      if(this.playerRef!==p) {this.playerRef=p;this.pending.length=0;}
+      if(state.phase!=='playing' || p.hp<=0)return;
+      dt=Math.min(.06,Math.max(0,Number(dt)||0));
+      this.time+=dt;
+      p.invuln=decay(p.invuln,dt);
+      p.attackCd=decay(p.attackCd,dt);
+      p.skillCd=decay(p.skillCd,dt);
+      p.attackLock=decay(p.attackLock,dt);
+      state.enemies=state.enemies||[];state.projectiles=state.projectiles||[];
+      for(let i=this.pending.length-1;i>=0;i--) {
+        const a=this.pending[i];a.remaining-=dt;
+        if(a.remaining<=0) {this.pending.splice(i,1);this.resolvePlayerAttack(state,a);}
+      }
+      for(const e of state.enemies) {
+        if(state.phase!=='playing'||p.hp<=0)break;
+        this.updateEnemy(dt,state,e);
+      }
+      if(state.phase==='playing'&&p.hp>0)this.updateProjectiles(dt,state);
+    }
+  }
+  CastleCombat.SPECS=SPECS;
+  global.CastleCombat=CastleCombat;
+})(typeof window!=='undefined'?window:globalThis);
+
+(async function(){'use strict';
+const $=s=>document.querySelector(s),{THREE,cloneSkinned,loadEmbeddedGLB}=Game3D;
+const assets={},visuals=new Map(),used=new Set(),keys=new Set(),events=[],floats=[],effects=[],warnings=new Map(),projectileViews=new Map();
+let state,combat,hero,gate,gateMixer,gateOpenAction,selectedWeapon='quick',ready=false,muted=false,audio=null,attackHeld=false,skillHeld=false,mouseAim=false,toastTimer=0,flash=0,shake=0,dashCd=0,jumpVelocity=0,heroAnimLock=0,frameCount=0,elapsedFrames=0,lastHud=0,previousTime=0,accTime=0,rewardFirst=false;
+let scene,renderer,camera,world,lootGroup,heroVisual,gateOpened=false;const ground=new THREE.Plane(new THREE.Vector3(0,1,0),0),ray=new THREE.Raycaster(),mouse=new THREE.Vector2(),aimPoint=new THREE.Vector3(),camTarget=new THREE.Vector3(),clock=new THREE.Clock();
+const items=[],traps=[],barriers=[],animatedEnvironment=[];const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),dist=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
+const dataUrl=k=>'data:'+window.__ASSETS__[k].mime+';base64,'+window.__ASSETS__[k].base64;
+function log(type,data={}){events.push({t:+(state?.time||0).toFixed(2),type,...data});if(events.length>600)events.shift()}
+function toast(t,seconds=3){$('#toast').textContent=t;$('#toast').style.opacity=1;toastTimer=seconds}
+function sound(f=440,d=.1,type='sine',gain=.05){if(!audio||muted)return;const o=audio.createOscillator(),g=audio.createGain();o.type=type;o.frequency.setValueAtTime(f,audio.currentTime);o.frequency.exponentialRampToValueAtTime(f*.65,audio.currentTime+d);g.gain.setValueAtTime(gain,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+d);o.connect(g).connect(audio.destination);o.start();o.stop(audio.currentTime+d)}
+function number(x,z,text,color='#ffe3a4'){const e=document.createElement('span');e.className='float';e.textContent=text;e.style.color=color;$('#floatLayer').append(e);floats.push({e,x,z,time:0})}
+function fail(error){ready=false;if(state)state.phase='error';$('#loading').classList.add('hidden');$('#error').classList.remove('hidden');$('#errorText').textContent=String(error.message||error)+' · Chrome 또는 Edge에서 파일을 다시 열어 주세요.';log('error',{error:String(error)});console.error(error)}
+function mergeStatic(root){root.updateMatrixWorld(true);const buckets=new Map();root.traverse(o=>{if(!o.isMesh)return;const mats=Array.isArray(o.material)?o.material:[o.material];let geom=o.geometry.index?o.geometry.toNonIndexed():o.geometry.clone();geom.applyMatrix4(o.matrixWorld);const groups=geom.groups.length?geom.groups:[{start:0,count:geom.attributes.position.count,materialIndex:0}];for(const gr of groups){const mat=mats[gr.materialIndex]||mats[0];let b=buckets.get(mat.uuid);if(!b){b={mat,p:[],n:[],uv:[]};buckets.set(mat.uuid,b)}for(let i=gr.start;i<gr.start+gr.count;i++){b.p.push(geom.attributes.position.getX(i),geom.attributes.position.getY(i),geom.attributes.position.getZ(i));const n=geom.attributes.normal;b.n.push(n?n.getX(i):0,n?n.getY(i):1,n?n.getZ(i):0);const uv=geom.attributes.uv;b.uv.push(uv?uv.getX(i):0,uv?uv.getY(i):0)}}geom.dispose()});const group=new THREE.Group();for(const b of buckets.values()){const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(b.p,3));geo.setAttribute('normal',new THREE.Float32BufferAttribute(b.n,3));geo.setAttribute('uv',new THREE.Float32BufferAttribute(b.uv,2));const m=new THREE.Mesh(geo,b.mat);m.receiveShadow=true;m.castShadow=true;group.add(m)}return group}
+function prop(key,x,z,scale=1,y=0,rot=0,parent=world){used.add(key);const src=assets[key];let ob=(src.merged||src.scene).clone(true);const wrap=new THREE.Group();wrap.add(ob);wrap.position.set(x,y,z);wrap.scale.setScalar(scale);wrap.rotation.y=rot;parent.add(wrap);return wrap}
+function disk(radius,color,opacity=.2){const m=new THREE.Mesh(new THREE.CircleGeometry(radius,48),new THREE.MeshBasicMaterial({color,transparent:true,opacity,depthWrite:false,side:THREE.DoubleSide}));m.rotation.x=-Math.PI/2;m.position.y=.025;return m}
+function lineMarker(x,z,width,length,color){const o=new THREE.Mesh(new THREE.PlaneGeometry(width,length),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.25,depthWrite:false,side:THREE.DoubleSide}));o.rotation.x=-Math.PI/2;o.position.set(x,.03,z);world.add(o);return o}
+function makeActor(key){used.add(key);const model=cloneSkinned(assets[key].scene);const wrap=new THREE.Group();wrap.add(model);model.traverse(o=>{if(o.isMesh){o.castShadow=true;o.frustumCulled=false}});const mixer=new THREE.AnimationMixer(model);const actions={};assets[key].animations.forEach(c=>{let clip=c;if(key==='hero'&&(c.name==='Dodge_Side'||c.name==='Jump')){clip=c.clone();for(const t of clip.tracks){if(t.name==='root.position'){for(let i=0;i<t.values.length;i+=3){t.values[i]=t.values[0];t.values[i+2]=t.values[2];if(c.name==='Jump')t.values[i+1]=t.values[1]}}}}actions[c.name]=mixer.clipAction(clip)});const label=document.createElement('div');label.className='enemyLabel';label.style.display=key==='hero'?'none':'block';$('#floatLayer').append(label);const v={wrap,model,mixer,actions,current:null,locked:0,dead:false,label};if(key==='warden'||key==='demon'){v.bossCue=new THREE.Mesh(new THREE.RingGeometry(.9,1.15,48),new THREE.MeshBasicMaterial({color:0xffd572,transparent:true,opacity:.65,depthWrite:false,side:THREE.DoubleSide}));v.bossCue.rotation.x=-Math.PI/2;v.bossCue.position.y=.04;v.bossCue.visible=false;wrap.add(v.bossCue)}play(v,'Idle',true);mixer.update(.05);world.add(wrap);return v}
+function play(v,name,loop=true,duration=0){const a=v.actions[name]||v.actions.Idle;if(!a)return;if(v.current===a&&loop)return;const prev=v.current;a.reset();a.enabled=true;a.clampWhenFinished=!loop;a.setLoop(loop?THREE.LoopRepeat:THREE.LoopOnce,loop?Infinity:1);a.timeScale=duration?a.getClip().duration/duration:1;a.setEffectiveWeight(1);if(prev&&prev!==a){prev.fadeOut(.12);a.fadeIn(.08)}a.play();v.current=a}
+function spawnFx(type,x,z,dx=0,dz=-1){let key={focus:'fxFocus',wide:'fxWide',hit:'fxHit',upgrade:'fxUpgrade',quick:'fxFocus',heavy:'fxWide'}[type];if(key){const ob=prop(key,x,z,type==='quick'?.55:1,.5,Math.atan2(dx,dz));const mixer=new THREE.AnimationMixer(ob);const clip=assets[key].animations[0];if(clip)mixer.clipAction(clip).setLoop(THREE.LoopOnce,1).play();effects.push({ob,mixer,time:0,life:clip?clip.duration:.7})}else{const ob=disk(type==='demonRing'?4:2.6,type==='demonRing'?0xc46bff:0xff9868,.6);ob.position.set(x,.05,z);world.add(ob);effects.push({ob,time:0,life:.4,expand:true})}}
+function warningFor(e){if(warnings.has(e.id)){world.remove(warnings.get(e.id));warnings.delete(e.id)}const w=e.warning;if(!w)return;let geo;if(w.shape==='line'){geo=new THREE.PlaneGeometry(w.width*2,w.length)}else if(w.shape==='cone'){geo=new THREE.CircleGeometry(w.radius,36,-Math.PI/2-(e.kind==='demon'?1.26:.92),(e.kind==='demon'?2.52:1.84))}else if(w.shape==='ring'){geo=new THREE.RingGeometry(.55,w.radius,48)}else geo=new THREE.CircleGeometry(w.radius,48);const ob=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:0xff5767,transparent:true,opacity:.25,depthWrite:false,side:THREE.DoubleSide}));ob.rotation.x=-Math.PI/2;ob.position.set(w.x,.036,w.z);if(w.shape==='line'){ob.position.x+=w.dx*w.length/2;ob.position.z+=w.dz*w.length/2;ob.rotation.z=Math.atan2(w.dx,w.dz)}else if(w.shape==='cone')ob.rotation.z=Math.atan2(w.dx,w.dz);world.add(ob);warnings.set(e.id,ob)}
+function onEvent(type,data){const v=data?.id?visuals.get(data.id):null;switch(type){case'playerAttack':{const n=data.skill==='wide'?'Skill_Wide':data.skill==='focus'?'Skill_Focused':data.weapon==='heavy'?'Attack_Heavy':state.player.combo++%2?'Attack_Slash':'Attack_Thrust';play(heroVisual,n,false,data.duration);heroAnimLock=data.duration;heroVisual.locked=data.duration;sound(data.skill?330:180,.12,'triangle',.035);log('attack',{kind:data.type});break}case'fx':spawnFx(data.type,data.x,data.z,data.dx,data.dz);break;case'number':number(data.x,data.z,data.text,data.color);break;case'playerHit':flash=.5;shake=.18;sound(90,.16,'sawtooth',.06);if(state.player.hp<=0){play(heroVisual,'Death',false,1.4);finish(false)}else{play(heroVisual,'Hit',false,.3);heroAnimLock=.3}log('damage',{amount:data.amount,source:data.source,hp:data.hp});break;case'telegraph':warningFor(data);if(v)play(v,'Telegraph',false,data.timer);log('telegraph',{enemy:data.id,shape:data.warning.shape});break;case'enemyAttack':if(v){play(v,data.kind==='caster'?'Cast':'Attack',false,.45);v.locked=.45}break;case'enemyRecover':if(v){play(v,'Recover',false,.8);v.locked=.6}break;case'enemyInterrupted':if(v){play(v,'Hit',false,.28);v.locked=.28}break;case'enemyHit':spawnFx('hit',data.x,data.z);sound(230,.06,'square',.025);break;case'enemyDead':{state.kills++;state.coins+=data.kind==='demon'?10:data.kind==='warden'?6:2;log('kill',{enemy:data.id});if(v){v.dead=true;play(v,'Death',false,1.4)}if(data.kind==='warden'){state.player.wideUnlocked=true;state.player.hp=Math.min(state.player.maxHp,state.player.hp+25);state.rewardPending=.9;state.rewardEarned=true;log('abilityUnlocked',{skill:'wide'})}if(data.kind==='demon'){state.demonDead=true;state.stage=4;state.gateTimer=0;toast('마왕을 쓰러뜨렸습니다. 열린 성문을 직접 통과하세요!',5);sound(640,.45,'triangle',.06);log('demonDefeatedGateNotPassed');gateMixer.stopAllAction();gateOpenAction?.reset().setLoop(THREE.LoopOnce,1).play();if(gateOpenAction)gateOpenAction.clampWhenFinished=true}break}case'projectile':{const ob=prop(data.source==='arrow'?'arrow':'magicProjectile',data.x,data.z,data.source==='arrow'?.9:.55,1,Math.atan2(data.vx,data.vz));projectileViews.set(data.id,ob);break}case'projectileGone':{const ob=projectileViews.get(data.id);if(ob)world.remove(ob);projectileViews.delete(data.id);break}case'strikeResolved':if(data.hits)shake=.07;break}}
+function makeItem(kind,x,z,id,amount=1){const key={coin:'coin',potion:'potion',attack:'attackUp',defense:'defenseUp',weapon:state.player.weapon==='quick'?'heavySword':'quickSword'}[kind];const o=prop(key,x,z,kind==='weapon'?1:.9,.2,0,lootGroup);const glow=disk(.48,kind==='potion'?0xff6975:0xf4d282,.16);glow.position.x=x;glow.position.z=z;lootGroup.add(glow);items.push({id,kind,x,z,amount,ob:o,glow,taken:false})}
+function makeWorld(){world=new THREE.Group();scene.add(world);lootGroup=new THREE.Group();world.add(lootGroup);
+ for(let z=2;z>=-54;z-=4)for(let x=-4;x<=4;x+=4)prop('floor',x,z,1,-.11);
+ for(let z=2;z>=-50;z-=4){for(const side of [-1,1]){prop('parapet',side*6.45,z,1,0,Math.PI/2);if(z%12===2){prop('brazier',side*5.9,z,1);prop('buttress',side*7,z,.8,0,side*Math.PI/2)}}}
+ for(const z of [-14,-24,-37]){prop('arch',0,z,1.0);prop('banner',-5.8,z,.8,.2);prop('banner',5.8,z,.8,.2);const wall=lineMarker(0,z,11.8,.35,0xdd527e);barriers.push({z,ob:wall})}
+ for(const x of [-5,5]){prop('tower',x,-51,1.1);prop('wall',x,-53);prop('banner',x,-51,.9,1.2)}
+ // Lower stairs lead into a visual recess; the playable courtyard is flat.
+ prop('stairs',0,5,1,-1.25,Math.PI);for(const x of [-8.8,8.8])for(const z of [-4,-12,-28,-36,-44])prop('lava',x,z,1,0,Math.PI/2);
+ gate=prop('gate',0,-50,1.15,0);gateMixer=new THREE.AnimationMixer(gate);gateOpenAction=gateMixer.clipAction(assets.gate.animations.find(c=>c.name==='Gate_Open'));const closed=gateMixer.clipAction(assets.gate.animations.find(c=>c.name==='Gate_Close'));closed.play();closed.paused=true;closed.time=closed.getClip().duration;gateMixer.update(0);
+ prop('shield',-4.5,2,.9,.6,Math.PI/5);prop('quickSword',-3.8,2,1,.3);prop('heavySword',-4.7,2,1,.3);
+ const chest=prop('chest',-4.4,-7);state.chest={x:-4.4,z:-7,opened:false,ob:chest};
+ makeItem('coin',4,-4,'coinA',3);makeItem('potion',4.3,-10,'healA');makeItem('weapon',-4,-11,'newSword');makeItem('defense',4.3,-19,'defenseA',3);makeItem('potion',-4,-26,'healB');makeItem('attack',4.1,-32,'attackB',4);makeItem('potion',4,-36,'healFinal');makeItem('coin',-4.4,-35,'coinB',5);
+ addTrap('spikes',0,-8);addTrap('arrow',0,-4);addTrap('flame',1.8,-27);addTrap('magic',0,-34);
+ for(const p of [[-5,-14],[5,-25],[-5,-40]]){const l=new THREE.PointLight(0xff9b4b,22,15,2);l.position.set(p[0],2.5,p[1]);world.add(l)}
+ for(let i=0;i<70;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(.02,4,3),new THREE.MeshBasicMaterial({color:0xf5b06a}));m.position.set(Math.sin(i*8.3)*7,.5+(i%7)*.4,-(i*.77));world.add(m);m.userData.ember=i;}
+}
+function addTrap(kind,x,z){let ob;if(kind==='spikes')ob=prop('spikes',x,z,1,-.12);if(kind==='arrow'){ob=prop('arrowLauncher',6,z,1,.1,Math.PI/2)}if(kind==='flame')ob=prop('flame',x,z,1);if(kind==='magic')ob=prop('magicEmitter',-5.9,z,1);let mixer=null,action=null;if(kind==='spikes'||kind==='flame'){mixer=new THREE.AnimationMixer(ob);action=mixer.clipAction(assets[kind].animations[0]);action.play();action.paused=true}const area=kind==='arrow'||kind==='magic'?lineMarker(0,z,11.5,.8,0xff8b59):lineMarker(x,z,kind==='spikes'?2.1:2.3,kind==='spikes'?2.1:2.8,0xff8b59);traps.push({kind,x,z,ob,mixer,action,area,phase:'safe',cycle:-1})}
+function equipWeapon(w){state.player.weapon=w;heroVisual.defaultSword.visible=w==='quick';heroVisual.extraSword.visible=w==='heavy';$('#weaponName').textContent=w==='quick'?'기사검 · 빠른 반격':'대검 · 긴 사거리';$('#weaponIcon').src=dataUrl(w==='quick'?'uiFocus':'uiWide');used.add(w==='quick'?'uiFocus':'uiWide');log('weapon',{weapon:w})}
+function resetGame(start=false){if(world){scene.remove(world)}visuals.forEach(v=>v.label?.remove());heroVisual?.label?.remove();visuals.clear();warnings.clear();projectileViews.clear();effects.length=0;items.length=0;traps.length=0;barriers.length=0;floats.forEach(f=>f.e.remove());floats.length=0;events.length=0;keys.clear();attackHeld=false;skillHeld=false;dashCd=0;jumpVelocity=0;heroAnimLock=0;gateOpened=false;state={phase:start?'playing':'intro',stage:0,time:0,coins:0,kills:0,demonDead:false,gatePassed:false,rewardEarned:false,weaponFound:false,gateTimer:0,player:{x:0,z:2,hp:110,maxHp:110,weapon:selectedWeapon,skill:'focus',wideUnlocked:false,attackBonus:0,defenseBonus:0,invuln:0,dashTime:0,airY:0,facingX:0,facingZ:-1,attackCd:0,skillCd:0,hitCount:0,combo:0},enemies:[],projectiles:[]};combat=new CastleCombat({event:onEvent});makeWorld();heroVisual=makeActor('hero');hero=heroVisual.wrap;heroVisual.defaultSword=heroVisual.model.getObjectByName('Equipped_Longsword');if(!heroVisual.defaultSword){heroVisual.defaultSword=new THREE.Group();heroVisual.model.traverse(o=>{if(o.name.startsWith('Equipped_Longsword'))o.userData.equippedSword=true})}const socket=(heroVisual.model.getObjectByName('socket.weapon.R')||heroVisual.model.getObjectByName(THREE.PropertyBinding.sanitizeNodeName('socket.weapon.R')));if(!socket)throw new Error('무기 부착점을 찾지 못했습니다.');heroVisual.extraSword=assets.heavySword.scene.clone(true);socket.add(heroVisual.extraSword);used.add('heavySword');
+ for(const d of [['guard',-2,-6,'guardA',0],['guard',2,-10,'guardB',0],['warden',0,-19,'warden',1],['caster',-2.6,-30,'casterA',2],['guard',0,-29,'guardC',2],['caster',2.6,-31,'casterB',2],['demon',0,-43,'demon',3]]){const e=combat.addEnemy(state,...d.slice(0,4));e.stage=d[4];e.active=e.stage===0;const v=makeActor(e.kind);v.wrap.position.set(e.x,0,e.z);visuals.set(e.id,v)}equipWeapon(selectedWeapon);for(const id of ['intro','reward','result','paused'])$('#'+id).classList.add('hidden');$('#hud').classList.toggle('hidden',!start);$('#intro').classList.toggle('hidden',start);camera.position.set(0,12,14);camTarget.set(0,0,-1);camera.lookAt(camTarget);log('reset',{start,weapon:selectedWeapon});if(start)toast('붉은 예고를 피한 뒤 반격하세요. 첫 상자는 왼쪽에 있습니다.',4);updateHud()}
+function chooseAbility(skill){state.player.skill=skill;state.phase='playing';$('#reward').classList.add('hidden');$('#hud').classList.remove('hidden');keys.clear();attackHeld=false;skillHeld=false;if(rewardFirst){state.stage=2;rewardFirst=false;toast(skill==='wide'?'새 능력으로 몰려 있는 적을 쓸어보세요.':'집중 찌르기로 뒤쪽 마법사를 먼저 노려보세요.',4)}log('abilityEquipped',{skill});sound(520,.2,'triangle',.07)}
+function abilityMenu(first=false){if(!state.player.wideUnlocked)return;rewardFirst=first;state.phase='reward';$('#reward').classList.remove('hidden');attackHeld=false;skillHeld=false;keys.clear();$('#reward .pill').textContent=first?'중간 보스 처치 · 새로운 능력 획득':'보유 능력 · 현재 사용할 능력 선택';$('#reward .subtle').textContent=first?'새 능력을 얻고 체력이 25 회복되었습니다. 선택 중에는 전투가 멈춥니다.':'두 능력은 모두 보유합니다. 선택 중에는 전투가 멈추며 추가 회복은 없습니다.'}
+function finish(win){if(state.phase==='win'||state.phase==='dead')return;state.phase=win?'win':'dead';state.gatePassed=win;keys.clear();attackHeld=false;skillHeld=false;$('#result').classList.remove('hidden');$('#resultTag').textContent=win?'ESCAPED · 최종 문 통과':'FALLEN · 체력 소진';$('#resultTitle').textContent=win?'마왕성에서 탈출했습니다.':'이번 원정은 여기까지.';$('#resultBody').textContent=win?'마왕을 쓰러뜨리고, 마지막 문을 직접 통과했습니다. 선택한 장비와 새 능력이 길을 열었습니다.':'전조가 나타나면 공격을 멈추고 옆으로 회피해 보세요. 적이 공격한 직후에는 더 강한 반격을 넣을 수 있습니다.';$('#resultTime').textContent=formatTime(state.time);$('#resultKills').textContent=state.kills;$('#resultCoins').textContent=state.coins;log(win?'win':'failure',{hp:state.player.hp,demonDead:state.demonDead,gatePassed:state.gatePassed});sound(win?780:100,.5,'triangle',.05)}
+function interact(){if(state.phase!=='playing')return;const c=state.chest;if(!c.opened&&dist(c,state.player)<1.8){c.opened=true;state.coins+=5;state.player.attackBonus+=4;c.ob.traverse(o=>{if(/lid/i.test(o.name))o.rotation.x=-.8});spawnFx('upgrade',c.x,c.z);toast('보물상자: 공격 +4 · 코인 +5',3);log('chestOpened');sound(760,.18);return}abilityMenu(false)}
+function dash(){const p=state.player;if(state.phase!=='playing'||dashCd>0)return;let x=+keys.has('KeyD')+ +keys.has('ArrowRight')- +keys.has('KeyA')- +keys.has('ArrowLeft'),z=+keys.has('KeyS')+ +keys.has('ArrowDown')- +keys.has('KeyW')- +keys.has('ArrowUp');if(!x&&!z){x=p.facingZ;z=-p.facingX}const d=Math.hypot(x,z);p.dashX=x/d;p.dashZ=z/d;p.dashTime=.23;p.invuln=Math.max(p.invuln,.30);dashCd=.85;play(heroVisual,'Dodge_Side',false,.3);heroAnimLock=.3;sound(150,.12,'triangle',.025);log('dodge')}
+function jump(){if(state.phase!=='playing'||state.player.airY>.01)return;jumpVelocity=5.6;play(heroVisual,'Jump',false,.76);heroAnimLock=.76;sound(290,.09);log('jump')}
+function faceTarget(){const p=state.player;if(mouseAim){ray.setFromCamera(mouse,camera);ray.ray.intersectPlane(ground,aimPoint);const d=Math.hypot(aimPoint.x-p.x,aimPoint.z-p.z);if(d>.1){p.facingX=(aimPoint.x-p.x)/d;p.facingZ=(aimPoint.z-p.z)/d}}else{const target=state.enemies.filter(e=>!e.dead&&e.active&&dist(e,p)<5.5).sort((a,b)=>dist(a,p)-dist(b,p))[0];if(target){const d=dist(target,p);p.facingX=(target.x-p.x)/d;p.facingZ=(target.z-p.z)/d}}}
+function updatePlayer(dt){const p=state.player;dashCd=Math.max(0,dashCd-dt);p.dashTime=Math.max(0,p.dashTime-dt);heroAnimLock=Math.max(0,heroAnimLock-dt);let x=+keys.has('KeyD')+ +keys.has('ArrowRight')- +keys.has('KeyA')- +keys.has('ArrowLeft'),z=+keys.has('KeyS')+ +keys.has('ArrowDown')- +keys.has('KeyW')- +keys.has('ArrowUp');let moving=!!(x||z);if(moving){const d=Math.hypot(x,z);x/=d;z/=d;if(!attackHeld&&!skillHeld&&!keys.has('KeyJ')&&!keys.has('KeyK')){p.facingX=x;p.facingZ=z}}if(p.dashTime>0){x=p.dashX;z=p.dashZ;moving=true}const speed=p.dashTime>0?10.4:(p.attackLock>0?2.65:4.5);p.x+=x*speed*dt;p.z+=z*speed*dt;for(const e of state.enemies){if(e.dead||!e.active)continue;const dx=p.x-e.x,dz=p.z-e.z,d=Math.hypot(dx,dz),r=e.radius+.26;if(d>.001&&d<r){p.x+=dx/d*(r-d);p.z+=dz/d*(r-d)}}p.x=clamp(p.x,-5.65,5.65);let zMin=state.stage===0?-13.2:state.stage===1?-23.2:state.stage===2?-36.2:state.demonDead?-54:-48.4;p.z=clamp(p.z,zMin,3.4);if(p.airY>0||jumpVelocity>0){p.airY+=jumpVelocity*dt;jumpVelocity-=14*dt;if(p.airY<=0){p.airY=0;jumpVelocity=0}}
+ if(skillHeld||keys.has('KeyK')){faceTarget();combat.attack(state,true)}if(attackHeld||keys.has('KeyJ')){faceTarget();combat.attack(state,false)}
+ hero.position.set(p.x,p.airY,p.z);hero.rotation.y=Math.atan2(p.facingX,p.facingZ);if(heroAnimLock<=0)play(heroVisual,moving?'Run_InPlace':'Idle',true);heroVisual.mixer.update(dt);if(p.invuln>0)hero.visible=Math.floor(state.time*18)%2===0||p.dashTime>0;else hero.visible=true;
+}
+function pickup(item){item.taken=true;item.ob.visible=false;item.glow.visible=false;const p=state.player;let t='';if(item.kind==='coin'){state.coins+=item.amount;t='코인 +'+item.amount}if(item.kind==='potion'){const healed=Math.min(38,p.maxHp-p.hp);p.hp+=healed;t='회복 물약 · 체력 +'+healed}if(item.kind==='attack'){p.attackBonus+=item.amount;t='공격 강화 +'+item.amount}if(item.kind==='defense'){p.defenseBonus+=item.amount;t='방어 강화 +'+item.amount}if(item.kind==='weapon'){state.weaponFound=true;t=(p.weapon==='quick'?'대검':'기사검')+' 획득 · Q로 바꿔보세요'}toast(t);spawnFx('upgrade',item.x,item.z);sound(670,.2);log('pickup',{kind:item.kind,id:item.id})}
+function updateItems(dt){for(const i of items){if(i.taken)continue;i.ob.position.y=.18+Math.sin(state.time*2+i.z)*.09;i.ob.rotation.y+=dt*.6;if(dist(i,state.player)<.87)pickup(i)}$('#prompt').textContent=!state.chest.opened&&dist(state.chest,state.player)<1.8?'E · 보물상자 열기':state.demonDead&&!state.gatePassed?'↑ 열린 문으로 계속 이동하세요':''}
+function updateTraps(dt){for(const t of traps){const cycle=Math.floor(state.time/4.6),phase=(state.time+(t.kind==='magic'?1.4:t.kind==='flame'?.8:0))%4.6;let active=phase>1.3&&phase<2.5;let warn=phase>.35&&phase<=1.3;if(state.demonDead)active=warn=false;t.phase=active?'active':warn?'warning':'safe';t.area.visible=active||warn;t.area.material.opacity=active?.5:.13+.17*Math.sin(phase*12)**2;t.area.material.color.set(active?0xff5549:0xffab60);if(t.action){const seconds=active?t.action.getClip().duration*.5:warn?t.action.getClip().duration*.12:0;t.action.time=seconds;t.mixer.update(0)}if(active&&(t.kind==='spikes'||t.kind==='flame')&&Math.abs(state.player.z-t.z)<(t.kind==='spikes'?1.05:t.kind==='flame'?1.35:.55)&&Math.abs(state.player.x-t.x)<(t.kind==='spikes'?1.05:t.kind==='flame'?1.2:7)){if(t.kind==='spikes'&&state.player.airY>.38)continue;combat.damagePlayer(state,t.kind==='spikes'?13:t.kind==='flame'?12:10,t.kind)}if(active&&(t.kind==='arrow'||t.kind==='magic')&&t.cycle!==cycle){t.cycle=cycle;const b={id:'trap_'+t.kind+'_'+cycle,x:t.kind==='arrow'?5.7:-5.7,z:t.z,vx:t.kind==='arrow'?-10:7,vz:0,radius:.24,life:1.8,source:t.kind==='arrow'?'arrow':'magictrap',damage:t.kind==='arrow'?10:13,dead:false};state.projectiles.push(b);onEvent('projectile',b)}}
+}
+function updateProgress(dt){if(state.stage===0&&state.enemies.filter(e=>e.stage===0).every(e=>e.dead)){state.stage=1;toast('성 안쪽 길이 열렸습니다. 철퇴 파수꾼의 큰 공격을 피하세요.',4);log('stage',{stage:1})}if(state.rewardPending>0){state.rewardPending-=dt;if(state.rewardPending<=0){abilityMenu(true);return}}if(state.stage===2&&state.enemies.filter(e=>e.stage===2).every(e=>e.dead)){state.stage=3;toast('왕좌의 문이 열렸습니다. 회복 물약을 챙기고 마왕에게 향하세요.',4);log('stage',{stage:3})}state.enemies.forEach(e=>e.active=e.stage<=state.stage);barriers.forEach((b,i)=>b.ob.visible=state.stage<=i);if(state.demonDead){state.gateTimer+=dt;gateOpened=state.gateTimer>1.15;gateMixer.update(dt);if(gateOpened&&state.player.z<-51&&Math.abs(state.player.x)<2.25)finish(true)}}
+const stageTexts=[['성 외곽','경비병을 넘어 성 안으로','화살과 가시를 살피세요. 왼쪽 상자와 새 검을 찾아보세요.'],['철퇴의 회랑','파수꾼의 빈틈에 반격','넓은 붉은 원에서 빠져나오거나 점프하세요. 공격 직후 금빛 빈틈에 큰 피해를 줄 수 있습니다.'],['마법사의 정원','새 능력으로 전투 방식을 바꾸기','K로 능력 사용 · E로 선택. 불길과 마법이 길을 가로막습니다.'],['마왕의 왕좌','마왕을 쓰러뜨리기','휩쓸기와 여덟 방향 마법탄이 번갈아 옵니다. 옆으로 피하고 금빛 빈틈에 반격하세요.'],['마지막 문','마지막 문을 직접 통과하기','✓ 마왕 처치　□ 최종 문 통과']];
+function updateHud(){if(!state)return;const p=state.player;$('#hpText').textContent=Math.ceil(p.hp)+' / '+p.maxHp;$('#hpBar').style.width=(p.hp/p.maxHp*100)+'%';$('#coins').textContent=state.coins;$('#atk').textContent=p.attackBonus;$('#def').textContent=p.defenseBonus;const txt=stageTexts[state.stage];$('#stageLabel').textContent=txt[0];$('#objective').textContent=txt[1];$('#objectiveHint').textContent=txt[2];document.querySelectorAll('.steps span').forEach((e,i)=>e.classList.toggle('done',i<state.stage));$('#skillName').textContent=p.skill==='wide'?'넓은 휩쓸기':'집중 찌르기';$('#skillIcon').src=dataUrl(p.skill==='wide'?'uiWide':'uiFocus');$('#skillCd').textContent='K / 우클릭 · '+(p.skillCd>0?p.skillCd.toFixed(1)+'초':'준비');$('#dashLabel').textContent=dashCd>0?'회피 '+dashCd.toFixed(1)+'초':'회피 준비';const boss=state.enemies.find(e=>(e.kind==='warden'||e.kind==='demon')&&!e.dead&&e.active&&dist(e,p)<10);$('#boss').classList.toggle('hidden',!boss);if(boss){$('#bossName').textContent=boss.kind==='warden'?'철퇴 파수꾼':'마왕';$('#bossHp').style.width=boss.hp/boss.maxHp*100+'%';$('#bossPhase').style.color=boss.phase==='recover'?'#ffd572':'#e8dfea';$('#bossPhase').textContent={telegraph:'방어 중 · 공격 예고를 피하세요',attack:'방어 중 · 공격',recover:'빈틈 · 반격 피해 증가',chase:'방어 중 · 공격을 유도하세요',idle:'방어 중 · 접근하세요'}[boss.phase]||''}}
+function formatTime(t){return Math.floor(t/60)+':'+String(Math.floor(t%60)).padStart(2,'0')}
+function screenPoint(x,z,y=1){const v=new THREE.Vector3(x,y,z).project(camera);return{x:(v.x*.5+.5)*innerWidth,y:(-v.y*.5+.5)*innerHeight,visible:v.z<1}}
+function snapshot(){if(!state)return{ready:false};return{ready,protocol:location.protocol,phase:state.phase,stage:state.stage,time:state.time,player:{...state.player,dashCd,screen:screenPoint(state.player.x,state.player.z)},enemies:state.enemies.map(e=>({id:e.id,kind:e.kind,x:e.x,z:e.z,hp:e.hp,maxHp:e.maxHp,phase:e.phase,timer:e.timer,active:e.active,dead:e.dead,warning:e.warning?{...e.warning}:null,screen:screenPoint(e.x,e.z)})),items:items.map(i=>({id:i.id,kind:i.kind,x:i.x,z:i.z,taken:i.taken})),chest:{x:state.chest.x,z:state.chest.z,opened:state.chest.opened},traps:traps.map(t=>({kind:t.kind,x:t.x,z:t.z,phase:t.phase})),kills:state.kills,coins:state.coins,weaponFound:state.weaponFound,rewardEarned:state.rewardEarned,demonDead:state.demonDead,gateOpened,gatePassed:state.gatePassed,animation:heroVisual?.current?.getClip().name,usedAssets:[...used],renderedFrames:frameCount,rendererCalls:renderer.info.render.calls,events:events.slice(-100)}}
+Object.defineProperty(window,'__GAME_STATE__',{get:snapshot});
+function animate(){requestAnimationFrame(animate);const raw=Math.min(clock.getDelta(),.06);frameCount++;if(!ready)return;const dt=raw;if(state.phase==='playing'){state.time+=dt;updatePlayer(dt);combat.update(dt,state);if(state.phase==='playing')updateTraps(dt);if(state.phase==='playing')updateItems(dt);if(state.phase==='playing')updateProgress(dt)}else if(state.phase==='intro'){heroVisual.mixer.update(dt)}else if(state.phase==='dead'){heroVisual.mixer.update(dt)}
+ const advancing=state.phase==='playing'||state.phase==='dead'||state.phase==='win';if(advancing){for(const e of state.enemies){const v=visuals.get(e.id);e.x=clamp(e.x,-5.15,5.15);v.wrap.position.set(e.x,0,e.z);if(v.bossCue)v.bossCue.visible=!e.dead&&e.active&&e.phase==='recover';const labelPos=screenPoint(e.x,e.z,e.kind==='demon'?3.5:e.kind==='warden'?3:2.15);v.label.style.display=e.dead||!e.active||!labelPos.visible?'none':'block';v.label.style.transform=`translate(${labelPos.x-35}px,${labelPos.y}px)`;v.label.textContent=e.kind==='guard'?'경비병':e.kind==='caster'?'룬 마법사':'';v.label.style.background=`linear-gradient(90deg,#dc707b ${e.hp/e.maxHp*100}%,#26354c ${e.hp/e.maxHp*100}%)`;v.wrap.rotation.y=Math.atan2(e.facingX,e.facingZ);v.locked=Math.max(0,v.locked-dt);if(!e.dead&&v.locked<=0){if(e.phase==='chase')play(v,'Move',true);else if(e.phase==='idle')play(v,'Idle',true)}v.mixer.update(dt);const w=warnings.get(e.id);if(w){if(!e.warning){world.remove(w);warnings.delete(e.id)}else w.material.opacity=.18+.35*(1-e.warning.remaining/e.warning.duration)}}for(const p of state.projectiles){const ob=projectileViews.get(p.id);if(ob){ob.position.set(p.x,1,p.z);if(p.source!=='arrow')ob.rotation.y+=dt*4}}for(let i=effects.length-1;i>=0;i--){const e=effects[i];e.time+=dt;e.mixer?.update(dt);if(e.vx)e.ob.position.x+=e.vx*dt;if(e.expand){e.ob.scale.setScalar(1+e.time);e.ob.material.opacity=Math.max(0,1-e.time/e.life)}if(e.time>e.life){world.remove(e.ob);effects.splice(i,1)}}}
+ for(let i=floats.length-1;i>=0;i--){const f=floats[i];f.time+=dt;const p=screenPoint(f.x,f.z,2+f.time);f.e.style.transform=`translate(${p.x}px,${p.y}px)`;f.e.style.opacity=1-f.time/.9;if(f.time>.9){f.e.remove();floats.splice(i,1)}}if(toastTimer>0){toastTimer-=dt;if(toastTimer<=0)$('#toast').style.opacity=0}flash=Math.max(0,flash-dt*2);$('#damageFlash').style.opacity=flash;shake=Math.max(0,shake-dt);const p=state.player;camTarget.lerp(new THREE.Vector3(p.x*.6,.1,p.z-3.3),Math.min(1,dt*5));camera.position.lerp(new THREE.Vector3(p.x*.35+Math.sin(state.time*90)*shake,12,p.z+11.4),Math.min(1,dt*4.5));camera.lookAt(camTarget);renderer.render(scene,camera);lastHud+=dt;if(lastHud>.08){lastHud=0;updateHud()} }
+function bindInputs(){window.addEventListener('keydown',e=>{if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault();if(e.repeat)return;keys.add(e.code);if(e.code==='KeyJ'||e.code==='KeyK')mouseAim=false;if(e.code==='ShiftLeft'||e.code==='ShiftRight')dash();if(e.code==='Space')jump();if(e.code==='KeyE')interact();if(e.code==='KeyQ'&&state.phase==='playing'){if(state.weaponFound){equipWeapon(state.player.weapon==='quick'?'heavy':'quick');toast('무기 교체 · 거리와 공격 타이밍이 달라집니다.',2)}else toast('성 외곽의 새 검을 얻으면 Q로 교체할 수 있습니다.',2)}if(e.code==='Digit1'&&state.phase==='playing')state.player.skill='focus';if(e.code==='Digit2'&&state.player.wideUnlocked&&state.phase==='playing')state.player.skill='wide';if(e.code==='KeyR'&&(state.phase==='dead'||state.phase==='win'))resetGame(true);if(e.code==='Escape'){if(state.phase==='playing'){state.phase='paused';$('#paused').classList.remove('hidden');keys.clear();attackHeld=false;skillHeld=false}else if(state.phase==='paused')resume()}});window.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>{keys.clear();attackHeld=false;skillHeld=false;if(state.phase==='playing'){state.phase='paused';$('#paused').classList.remove('hidden')}});renderer.domElement.addEventListener('pointermove',e=>{mouse.set(e.clientX/innerWidth*2-1,-e.clientY/innerHeight*2+1);mouseAim=true});renderer.domElement.addEventListener('pointerdown',e=>{if(state.phase!=='playing')return;mouse.set(e.clientX/innerWidth*2-1,-e.clientY/innerHeight*2+1);mouseAim=true;faceTarget();if(e.button===0){attackHeld=true;combat.attack(state,false)}if(e.button===2){skillHeld=true;combat.attack(state,true)}});window.addEventListener('pointerup',e=>{if(e.button===0)attackHeld=false;if(e.button===2)skillHeld=false});window.addEventListener('contextmenu',e=>e.preventDefault());$('#start').onclick=()=>{try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();audio.resume()}catch{}resetGame(true);sound(480,.15)};$('#retry').onclick=()=>resetGame(true);$('#resume').onclick=resume;$('#equipFocus').onclick=()=>chooseAbility('focus');$('#equipWide').onclick=()=>chooseAbility('wide');$('#sound').onclick=()=>{muted=!muted;$('#sound').textContent=muted?'소리 꺼짐':'소리 켜짐'};for(const w of ['Quick','Heavy'])$('#choose'+w).onclick=()=>{selectedWeapon=w.toLowerCase();document.querySelectorAll('[data-weapon]').forEach(b=>b.classList.toggle('selected',b.dataset.weapon===selectedWeapon))};function resume(){state.phase='playing';$('#paused').classList.add('hidden');keys.clear();attackHeld=false;skillHeld=false}}
+try{renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;$('#game').append(renderer.domElement);scene=new THREE.Scene();scene.background=new THREE.Color(0x0b1423);scene.fog=new THREE.Fog(0x0b1423,21,45);camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.1,100);scene.add(new THREE.HemisphereLight(0x9cbbec,0x39313b,2.4));const key=new THREE.DirectionalLight(0xc7dcff,2.3);key.position.set(-6,14,6);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.camera.left=-13;key.shadow.camera.right=13;key.shadow.camera.top=16;key.shadow.camera.bottom=-16;key.shadow.normalBias=.035;scene.add(key);scene.add(key.target);
+const glbKeys=Object.keys(window.__ASSETS__).filter(k=>window.__ASSETS__[k].mime==='model/gltf-binary');let loaded=0;for(const k of glbKeys){assets[k]=await loadEmbeddedGLB(window.__ASSETS__,k);const skinned=assets[k].scene.getObjectByProperty('isSkinnedMesh',true);if(!skinned&&assets[k].animations.length===0)assets[k].merged=mergeStatic(assets[k].scene);loaded++;$('#loadProgress').value=loaded/glbKeys.length*100;$('#loadText').textContent=`마왕성 준비 · ${loaded} / ${glbKeys.length}`;await new Promise(r=>setTimeout(r,0))}for(const [id,k]of [['quickIcon','uiFocus'],['heavyIcon','uiWide'],['rewardFocus','uiFocus'],['rewardWide','uiWide'],['weaponIcon','uiFocus'],['skillIcon','uiFocus'],['atkIcon','uiAttackUp'],['defIcon','uiDefenseUp'],['hitIcon','uiHit']]){$('#'+id).src=dataUrl(k);used.add(k)}
+// UI assets are reused for choice outlines and state cues, keeping the same palette.
+const style=document.createElement('style');style.textContent=`#reward .choice{background-image:url("${dataUrl('abilityCardIdle')}");background-size:100% 100%}#reward .choice:hover{background-image:url("${dataUrl('abilityCardFocus')}")}#reward .choice.selected{background-image:url("${dataUrl('abilityCardSelected')}")}#reward .choice:disabled{background-image:url("${dataUrl('abilityCardDisabled')}")}`;document.head.append(style);['abilityCardIdle','abilityCardFocus','abilityCardSelected','abilityCardDisabled'].forEach(k=>used.add(k));
+resetGame(false);bindInputs();ready=true;$('#loading').classList.add('hidden');window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();fail(new Error('3D 그래픽 연결이 끊겼습니다.'))});animate();
+}catch(error){fail(error)}
+})();
+
+</script>
+</body></html>
